@@ -1,0 +1,60 @@
+%French setting up
+\usepackage[utf8]{inputenc}
+\usepackage{lmodern}
+\usepackage[T1]{fontenc}
+\usepackage[french]{babel}
+
+%Paragraph jumps and indentation
+\setlength{\parskip}{1em}
+\setlength{\parindent}{1.25cm}
+
+%Point to comma
+\mathchardef\period=\mathcode`.
+\DeclareMathSymbol{.}{\mathord}{letters}{"3B}
+\addto\captionsfrench{\def\tablename{Tableau}}
+
+\usepackage{subcaption}
+
+%Border
+\usepackage[left=1in, right=1in, top=1in, bottom=1in]{geometry}
+
+\renewcommand{\baselinestretch}{1.3}
+
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsthm}
+
+\usepackage[dvipsnames]{xcolor} %Colors
+\usepackage{graphicx} % Images
+\graphicspath{ {./images/} }
+\usepackage{float} %Positioning images
+\usepackage{siunitx} %physics units
+\usepackage[european, RPvoltages]{circuitikz}
+\usetikzlibrary{babel}
+
+\usepackage[compact]{titlesec}
+
+\titleformat{\section}
+{\normalfont\large\bfseries}{\thesection}{1em}{}
+\titleformat{\subsection}
+{\normalfont\normalsize\bfseries}{\thesubsection}{1em}{}
+
+\usepackage{import}
+\usepackage{xifthen}
+\usepackage{pdfpages}
+\usepackage{transparent}
+
+\newcommand{\incfig}[1]{%
+    \def\svgwidth{\columnwidth}
+    \import{./images/}{#1.pdf_tex}
+}
+
+
+\usepackage[
+backend=bibtex,
+sorting=nty]{biblatex}
+\addbibresource{bibliography.bib}
+
+\usepackage{subfiles}
+
+\usepackage{hyperref} %Last package
