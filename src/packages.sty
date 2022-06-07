@@ -55,6 +55,20 @@ backend=bibtex,
 sorting=nty]{biblatex}
 \addbibresource{bibliography.bib}
 
+%Numbered environment
+\theoremstyle{definition}
+\newtheorem{definition}{Définition}[section]
+\newtheorem{theorem}{Théorème}[section]
+\newtheorem{lemma}[theorem]{Lemme}
+
+\counterwithin{figure}{section}
+
 \usepackage{subfiles}
 
 \usepackage{hyperref} %Last package
+\hypersetup{
+    colorlinks=true,
+    linkcolor=blue,
+    filecolor=magenta,      
+    urlcolor=cyan,
+    }

@@ -3,10 +3,11 @@
 
 \begin{document}
 
-\section{Introduction}
+\section{Approximation des problèmes NP-complet}
 Un approche commune pour résoudre rapidement (dans un temps polynomial) un problème de classe NP est d'obtenir une approximation qui est prouvé d'être proche de la solution, c'est une $\epsilon$-approximation.
 
-\emph{Définition:} Un algorithme est $\epsilon$-approximé pour un problème $P_1$ ssi soit (i) $P_1$ est un problème de maximisation et pour tout instance de $P_1$
+\begin{definition}
+Un algorithme est $\epsilon$-approximé pour un problème $P_1$ ssi soit (i) $P_1$ est un problème de maximisation et pour tout instance de $P_1$
 \[
 |(F^* - \hat{F})/F^*| \leq \epsilon, \quad 0 < \epsilon < 1,
 \]
@@ -14,14 +15,15 @@ ou bien (ii) $P_1$ est un problème de minimisation et pour tout instance de $P_
 \[
 |(F^* - \hat{F})/F^*| \leq \epsilon, \quad \epsilon > 0,
 \]
-avec $F^*$ la solution optimale (supposé strictement positive) et $\hat{F}$ la solution approximative obtenue. $\qed$
+avec $F^*$ la solution optimale (supposé strictement positive) et $\hat{F}$ la solution approximative obtenue.
+\end{definition}
 
 Ce document présente la partie du théorème de \cite{Sahni1976} concernant le problème du voyageur de commerce.
 
-\section{Problème du voyageur de commerce}
+\subsection{Problème du voyageur de commerce}
 Dans cette section, le problème du voyageur de commerce et la preuve du théorème de \cite{Sahni1976} sont présentés. Il est important de noter que si P=NP, l'approximation resterait un problème dans la classe NP-complet (les deux classes sont équivalents). Pour la suite il est supposé que P $\neq$ NP, qui impliquera que n'importe quelle algorithme pour résoudre le problème dans un temps polynomial doit produire des mauvaises approximations dans au moins un instance.
 
-\emph{Problème de voyageur de commerce}: Soit un graphe $G(N, A)$ un graphe complet avec une fonction poids $\omega : A \rightarrow Z$, trouver le cycle Hamiltonien (le cycle qui passe par tout les sommets exactement une fois) le plus optimal selon les critères suivantes:
+\noindent \emph{Problème de voyageur de commerce}: Soit un graphe $G(N, A)$ un graphe complet avec une fonction poids $\omega : A \rightarrow Z$, trouver le cycle Hamiltonien (le cycle qui passe par tout les sommets exactement une fois) le plus optimal selon les critères suivantes:
 \begin{enumerate}
 \item Minimiser la longueur du cycle Hamiltonien.
 \item Minimiser le temps d'arrivé moyen aux sommets. Le temps d'arrivé est mesuré selon le premier sommet et le poids des arêtes étant le temps pour aller d'un sommet à un autre. Soit $i_1, i_2, \cdots , i_n, i_{n+1}=i_1$ un cycle Hamiltonien, alors le temps d'arrivé $Y_k$ au sommet $i_k$ est:
@@ -40,8 +42,12 @@ Le temps d'arrivé moyen (à minimiser) est alors
 
 Afin de prouver que n'importe quelle approximation de ce problème est de classe au moins NP-complet, ce problème sera réduit à un problème prouvé être NP-complet selon \cite{Karp1972}: Vérifier si un graphe contient un cycle Hamiltonien.
 
-\emph{Théorème}: L'$\epsilon$-approximation du problème de voyageur des commerces est NP-complète.\\
-\emph{Preuve}: Soit $G(N,A)$ un graphe quelconque. Chaque critère d'optimisation sera traité séparément:
+\begin{theorem}
+L'$\epsilon$-approximation du problème de voyageur des commerces est NP-complète.
+\end{theorem}
+
+\begin{proof}
+Soit $G(N,A)$ un graphe quelconque. Chaque critère d'optimisation sera traité séparément:
 \begin{enumerate}
 \item Trouver un cycle Hamiltonien $\propto \! \epsilon$-approximation du voyageur de commerce (minimiser la longueur du cycle): Soit $G_1(V, E)$ un graphe complet ($E = \{(u,v)\ |\ u,v \in V\}$) avec $V = N$ et $n = |N|$. La fonction de poids et définie:
 \[
@@ -58,6 +64,7 @@ N_1 = N \cup \{\alpha, \beta, \gamma, \delta \}, \quad A_1 = A \cup \{(r, \alpha
 \]
 pour $r$ comme sommet quelconque dans $G$.
 \end{enumerate}
+\end{proof}
 
 \begin{figure}[ht]
     \centering
@@ -66,7 +73,7 @@ pour $r$ comme sommet quelconque dans $G$.
     \label{fig:epsi_approx}
 \end{figure}
 
-\section{Conclusion}
+\subsection{Conclusion}
 Pour résumer, tout algorithme $\epsilon$-approximative du TSP est NP-complet. Ceci à été établi en réduisant le problème à un problème prouvé d'être NP-complet. Autrement dit, si un algorithme peut approximer la solution du TSP pour n'importe quelle graphe, il est au moins assez difficile que résoudre le problème: Est-ce que ce graphe contient un cycle Hamiltonien? La solution de cette question n'est pas obtenue dans un temps polynomial et donc soit l'algorithme approximative ne résolve pas le problème dans un temps polynomial ou bien il n'est pas $\epsilon$-approximative.
 
 
