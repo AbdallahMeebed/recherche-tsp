@@ -48,8 +48,8 @@ L'$\epsilon$-approximation du problème de voyageur des commerces est NP-complè
 
 \begin{proof}
 Soit $G(N,A)$ un graphe quelconque. Chaque critère d'optimisation sera traité séparément:
-\begin{enumerate}
-\item Trouver un cycle Hamiltonien $\propto \! \epsilon$-approximation du voyageur de commerce (minimiser la longueur du cycle): Soit $G_1(V, E)$ un graphe complet ($E = \{(u,v)\ |\ u,v \in V\}$) avec $V = N$ et $n = |N|$. La fonction de poids et définie:
+
+1. Trouver un cycle Hamiltonien $\propto \! \epsilon$-approximation du voyageur de commerce (minimiser la longueur du cycle): Soit $G_1(V, E)$ un graphe complet ($E = \{(u,v)\ |\ u \neq v,\ u,v \in V\}$) avec $V = N$ et $n = |N|$. La fonction de poids $\omega : E \rightarrow Z$ est définie:
 \[
 \omega \{u, v\} = \begin{cases}
 \text{1 si } (u,v)\in A,\\
@@ -57,14 +57,8 @@ k \text{ sinon}
 \end{cases}
 \]
 $k$ est une valeur à choisir ultérieurement. Pour $k > 1$, la solution du TSP sur $G_1$ aura une longueur $n$ ssi $G$ contient un cycle Hamiltonien, sinon la solution aura une longueur au moins $k + n -1$. Si on choisi $k \geq (1+\epsilon)n$, il suffit juste d'évaluer la solution approximative: si elle est inférieure ou égale à $(1+ \epsilon)n$ (ne pas oublier l'erreur commise par l'approximation) alors $G$ contient un cycle Hamiltonien. Sinon, $G$ n'en contient pas. Cela revient à résoudre le problème de trouver si un graphe contient un cycle Hamiltonien (un problème NP-complet).
-\item Trouver un cycle Hamiltonien $\propto \! \epsilon$-approximation du voyageur de commerce (minimiser le temps d'arrivé moyen): Soit $G_1(V,E)$ comme défini ci-dessus. Le temps d'arrivé moyen de $G_1$ est au maximum $(n+1)/2$ ssi $G$ contient un cycle Hamiltonien. Sinon, $\bar{Y} \geq k/n + (n-1)/2$. Si on choisi $k > (1+\epsilon)n(n+1)/2$, il suffit juste d'évaluer la solution approximative: si elle est inférieur ou égale à $(1+\epsilon)(n+1)/2$, alors la solution exacte sera $(n+1)/2$ et donc $G$ contient un cycle Hamiltonien. Sinon, $G$ n'en contient pas.
-\item Trouver un cycle Hamiltonien $\propto \! \epsilon$-approximation du voyageur de commerce (minimiser la variance du temps d'arrivé): Utilisant, $G(N,A)$, on construit un graphe $G_1(N_1, A_1)$ (voir Figure \ref{fig:epsi_approx}) avec:
-\[
-N_1 = N \cup \{\alpha, \beta, \gamma, \delta \}, \quad A_1 = A \cup \{(r, \alpha),(\alpha, \beta),(\beta, \gamma),(\gamma, \delta)\} \quad \cup  \{(\delta, z) +| (r,z)\in A\}
-\]
-pour $r$ comme sommet quelconque dans $G$.
-\end{enumerate}
-\end{proof}
+
+2. Trouver un cycle Hamiltonien $\propto \! \epsilon$-approximation du voyageur de commerce (minimiser le temps d'arrivé moyen): Soit $G_1(V,E)$ comme défini ci-dessus. Le temps d'arrivé moyen de $G_1$ est au maximum $(n+1)/2$ ssi $G$ contient un cycle Hamiltonien. Sinon, $\bar{Y} \geq k/n + (n-1)/2$. Si on choisi $k > (1+\epsilon)n(n+1)/2$, il suffit juste d'évaluer la solution approximative: si elle est inférieur ou égale à $(1+\epsilon)(n+1)/2$, alors la solution exacte sera $(n+1)/2$ et donc $G$ contient un cycle Hamiltonien. Sinon, $G$ n'en contient pas.
 
 \begin{figure}[ht]
     \centering
@@ -72,6 +66,46 @@ pour $r$ comme sommet quelconque dans $G$.
     \caption{Construction de $G_1$, les lignes pointillées représentent les arêtes supplémentaires, exclusives à $G_1$}
     \label{fig:epsi_approx}
 \end{figure}
+
+3. Trouver un cycle Hamiltonien $\propto \! \epsilon$-approximation du voyageur de commerce (minimiser la variance du temps d'arrivé): Utilisant, $G(N,A)$, on construit un graphe $G_1(N_1, A_1)$ (voir Figure \ref{fig:epsi_approx}) avec:
+\[
+N_1 = N \cup \{\alpha, \beta, \gamma, \delta \}, \ A_1 = A \cup \{(r, \alpha),(\alpha, \beta),(\beta, \gamma),(\gamma, \delta)\} \ \cup  \{(\delta, z) +| (r,z)\in A\}
+\]
+pour $r$ comme sommet quelconque dans $G$. Il est évident que $G_1$ contient un cycle Hamiltonien ssi $G$ en contient. Le TSP est obtenu avec le graphe $G_2(N_2, A_2)$ avec $N_2 = N_1$ et $A_2 = \{(u,v)\ |\ u \neq v,\ u,v \in V\}$ (graphe complet) avec la fonction de poids $\omega : A_2 \rightarrow Z$ est définie:
+\[
+\omega \{u, v\} = \begin{cases}
+\text{1 si } (u,v)\in A_1,\\
+k \text{ sinon}
+\end{cases}
+\]
+Lemme \ref{lem:lemma} obtient une borne inférieur de $\sigma$.
+\begin{lemma}
+\label{lem:lemma}
+Pour $k > \sqrt{\frac{(1+\epsilon)(n)(n-1)(n+1)}{3}}$ et $\epsilon >0$, $G_2$ contient un cycle Hamiltonien de variance $\sigma \leq \frac{(n-1)(n+1)}{12}$ ssi $G_1$ est Hamiltonien. Sinon, $\sigma > \frac{(1+\epsilon)(n-1)(n+1)}{12}$
+\end{lemma}
+\begin{proof}
+Si $G_1$ est Hamiltonien alors ce cycle est aussi dans $G_2$ avec le poids de chaque arêtes = 1. Alors $\bar{Y} = (n+1)/2$ et
+\[
+\sigma = \frac{1}{n}\sum_{k = 2}^{n+1} (Y_k - \bar{Y})^2 = \frac{1}{n}\sum_{k = 2}^{n+1} Y_k^2 - \bar{Y}^2 = \frac{2n^2+3n+1}{6} - \frac{(n+1)^2}{4} = \frac{(n+1)(n-1)}{12}
+\]
+
+Si $G_1$ n'est pas Hamiltonien, alors chaque cycle dans $G_2$ doit contenir un arête de poids $k$. Soit le tour optimal $i_1,i_2,\cdots , i_n,i_{n+1}$ avec $i_1=i_{n+1}=\beta$. Il y a 3 cas:
+
+\emph{Cas 1:} $\omega (\beta, i_2) = 1$ et $\omega (i_j, i_{j+1})=k$ pour $j$, $1 < j \leq n$: Dans ce cas $Y_2=1$ et $Y_{n+1} \geq k+n-1$. Si $\bar{Y} \geq k/2+1$ alors $|Y_2 - \bar{Y}| \geq k/2$. Si $\bar{Y} < k/2+1$ alors $|Y_{n+1} - \bar{Y}| \geq k/2 + 1$. Dans tous les cas pour $k > \sqrt{\frac{(1+\epsilon)(n)(n-1)(n+1)}{3}}$:
+\[
+\sigma \geq \frac{(k/2)^2}{n} = \frac{k^2}{4n} > \frac{(1+\epsilon)(n-1)(n+1)}{12}
+\]
+
+\emph{Cas 2:} $\omega (\beta, i_2) = k$ et tout le reste des arêtes ont un poids 1. Ceci implique que $i_n=\alpha$ ou $i_n=\gamma$ car leurs arêtes incidents sont les seules qui relient à $\beta$ avec un poids 1. Sans perte de généralité on suppose que $i_n=\alpha$. Puisque $\gamma$ est un sommet dans le cycle, il doit y a voir deux sommets distincts incidents $u$ et $v$ et $v \neq \beta \neq u$ car $\beta$ est déjà dans le cycle et $u \neq i_2$ car $(\beta, \gamma)$ n'est pas dans le cycle. Selon la construction de $G_2$ il est évident que $(\beta, \gamma)$ et $(\gamma, \delta)$ sont les seules qui ont un poids 1 est incidents à $\gamma$. Il n'y a que $\delta$ qui disponible alors un cycle avec seulement $\omega (\beta, i_2) = k$ et le reste des arêtes de poids 1 est impossible.
+
+\emph{Cas 3:} $\omega (\beta, i_2) = k$ et $\omega (i_j, i_{j+1})=k$. Dans ce cas $Y_2=k$ et $Y_{n+1} \geq 2k+n-2$. Si $\bar{Y} \geq 3k/2$ alors $|Y_2 - \bar{Y}| \geq k/2$. Si $\bar{Y} < 3k/2$ alors $|Y_{n+1} - \bar{Y}| \geq k/2$. Par la suite $\sigma > \frac{(1+\epsilon)(n+1)(n-1)}{12}$ (voir Cas 1).
+
+Ceci prend en considération tous les cas dans lesquels $G_1$ n'est pas Hamiltonien.
+\end{proof}
+
+Il est maintenant facile de voir que pour obtenir une approximation sur la variance revient à une réduction du problème de chercher un cycle Hamiltonien, et alors le problème $\epsilon$-approximatif du voyageur des commerces est NP-complet.
+
+\end{proof}
 
 \subsection{Conclusion}
 Pour résumer, tout algorithme $\epsilon$-approximative du TSP est NP-complet. Ceci à été établi en réduisant le problème à un problème prouvé d'être NP-complet. Autrement dit, si un algorithme peut approximer la solution du TSP pour n'importe quelle graphe, il est au moins assez difficile que résoudre le problème: Est-ce que ce graphe contient un cycle Hamiltonien? La solution de cette question n'est pas obtenue dans un temps polynomial et donc soit l'algorithme approximative ne résolve pas le problème dans un temps polynomial ou bien il n'est pas $\epsilon$-approximative.
