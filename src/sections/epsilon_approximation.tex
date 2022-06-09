@@ -21,7 +21,7 @@ avec $F^*$ la solution optimale (supposé strictement positive) et $\hat{F}$ la 
 Ce document présente la partie du théorème de \cite{Sahni1976} concernant le problème du voyageur de commerce.
 
 \subsection{Problème du voyageur de commerce}
-Dans cette section, le problème du voyageur de commerce et la preuve du théorème de \cite{Sahni1976} sont présentés. Il est important de noter que si P=NP, l'approximation resterait un problème dans la classe NP-complet (les deux classes sont équivalents). Pour la suite il est supposé que P $\neq$ NP, qui impliquera que n'importe quelle algorithme pour résoudre le problème dans un temps polynomial doit produire des mauvaises approximations dans au moins un instance.
+Dans cette section, le problème du voyageur  de commerce (TSP pour \emph{Traveling salesman problem})et la preuve du théorème de \cite{Sahni1976} sont présentés. Il est important de noter que si P=NP, l'approximation resterait un problème dans la classe NP-complet (les deux classes sont équivalents). Pour la suite il est supposé que P $\neq$ NP, qui impliquera que n'importe quelle algorithme pour résoudre le problème dans un temps polynomial doit produire des mauvaises approximations dans au moins un instance.
 
 \noindent \emph{Problème de voyageur de commerce}: Soit un graphe $G(N, A)$ un graphe complet avec une fonction poids $\omega : A \rightarrow Z$, trouver le cycle Hamiltonien (le cycle qui passe par tout les sommets exactement une fois) le plus optimal selon les critères suivantes:
 \begin{enumerate}
@@ -75,6 +75,11 @@ pour $r$ comme sommet quelconque dans $G$.
 
 \subsection{Conclusion}
 Pour résumer, tout algorithme $\epsilon$-approximative du TSP est NP-complet. Ceci à été établi en réduisant le problème à un problème prouvé d'être NP-complet. Autrement dit, si un algorithme peut approximer la solution du TSP pour n'importe quelle graphe, il est au moins assez difficile que résoudre le problème: Est-ce que ce graphe contient un cycle Hamiltonien? La solution de cette question n'est pas obtenue dans un temps polynomial et donc soit l'algorithme approximative ne résolve pas le problème dans un temps polynomial ou bien il n'est pas $\epsilon$-approximative.
+
+\subsection{Classification du voyageur de commerce}
+Le problème du voyageur de commerce peut être considéré sous plusieurs classe de complexité selon le problème posé. La version d'un problème de décision: est-ce qu'il existe une solution pour un graphe $G(V,A)$ ?revient à demander s'il existe un cycle Hamiltonien, car s'il existe au moins un cycle alors il y aura une solution. Cette question est donc en classe NP-complet (elle peut être réduit à un problème NP-complet). La version de la question avec un seuil: Est-ce qu'il existe une solution avec un coût total inférieur à $x$? Cette formulation place le problème aussi dans la classe NP-complet, il est facile de vérifier le poids d'un cycle Hamiltonien (somme des arêtes) et donc la vérification d'une solution est faite rapidement.
+
+Par contre, la version \og complète \fg{}: Trouver le cycle Hamiltonien le moins lourd, est placé dans NP-difficile. Premièrement, ce problème n'est plus un problème de décision, c'est un problème de fonction. Ensuite, trouver une solution est au moins assez difficile que trouver un cycle Hamiltonien, donc le problème ne peux pas être résolu dans un temps polynomial (supposant que P$\neq$ NP). En plus, il n'existe pas de méthode rapide pour vérifier si un cycle Hamiltonien dans le graphe est en faite le cycle le moins lourd; une solution donnée ne peut pas être vérifiée dans un temps polynomial.
 
 
 \end{document}
