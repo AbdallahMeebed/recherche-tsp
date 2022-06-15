@@ -1,5 +1,57 @@
 \documentclass[../main.tex]{subfiles}
 \graphicspath{{\subfix{../images/}}}
 \begin{document}
+\section{Résoudre le problème du voyageur de commerce}
+Dans cette section différents algorithmes pour résoudre exactement ou approximativement le TSP sont présentés.
+
+\subsection{Algorithme de Held-Karp}
+L'algorithme Held-Karp est un algorithme de programmation dynamique développé par Held et Karp \cite{Held1962} et aussi indépendamment par Bellman \cite{Bellman1962} en 1962 qui résout exactement le TSP avec un ordre de complexité en temps de $\Theta (2^n n^2)$ et en espace de $\Theta (2^n n)$. Pour référence, une recherche exhaustive d'une solution dans un graphe complet est d'ordre de temps $O(n!)$ est d'espace $O(n^2)$.
+
+\subsubsection*{Programmation dynamique}
+Le principe de la programmation dynamique est de transformer un problème en sous-problèmes et de les résoudre récursivement en utilisant la mémoïsation (mémoriser les valeurs de retour les résultats intermédiaires) pour diminuer la complexité en temps (c'est compensé par une augmentation de l'espace nécessaire par contre). Ce domaine a été développé dans les années 1950s par Richard Bellman.
+
+Un exemple simple pour calculer un terme dans le suite de Fibonacci qui est défini comme: 
+\[
+F(0) = 0, \ F(1)=1,\ F(n)=F(n-1)+F(n-2) \quad n \geq 2
+\]
+un programme informatique peut tout simplement traduire cela en code. Cette implémentation est inefficace car le temps d'exécution de cet algorithme est exponentiel (ordre $O(2^n)$) car le programme calcul $F(x)$ pour le même $x$ intermédiaire plusieurs fois. Par contre, sauvegarder la valeur de $x$ et la renvoyer si besoin améliore beaucoup le temps d'exécution (ordre $O(n)$, chaque terme de la suite est calculé seulement une fois).
+
+Revenant à l'algorithme, il est divisé en deux parties. Pour référence les sommets sont numérotés arbitrairement entre 1 et $n$. La première partie est de trouver la chaîne la moins lourde qui commence à 1 et termine au sommet $x$ avec $x \in \{2\dots n\}$ qui passe par tout le reste des sommets $\{2\dots n\} \setminus x$. On définit $S \subseteq \{2\dots n\}$, $d(a,b)$ le poids de l'arête $(a,b)$, $g(S, e)$ comme le coût minimal de la chaîne qui commence à 1 et termine à $e$ en passant seulement par tout les sommets dans $S$, $k = |S|$. Il y a alors le cas trivial et le cas récursif dans l'algorithme:
+\begin{enumerate}
+\item Cas trivial: Si $S=\emptyset$ alors $g(S, e) = d(1,e)$
+\item Cas récursif: Si $S \neq \emptyset$ alors soit $S_i = S \setminus s_i$ avec $s_i$ un sommet arbitraire dans $S$. Alors:
+\[
+g(S, e) = \min _{1 \leq i \leq k} g(S_i, s_i) + d(s_i, e)
+\]
+
+Il est évident que $s_i$ est l'avant dernier sommet dans la chaîne. Simplement dit, l'algorithme évalue le coût de la chaine la plus courte qui se termine par $s_i$ et ajoute $d(s_i, e)$, pour chaque sommet $s_i$ différent. Ensuite, il choisit le plus optimal et sauvegarde 2 données: $s_i$ de la chaîne la plus courte et le prix total $g(S,e)$. Sauvegarder $s_i$ est utile pour reconstruire la chaîne: il suffit de retracer les sommets avant derniers qui donneront alors la chaîne la plus courte.
+\end{enumerate}
+
+L'algorithme exécute ces étapes par ordre $k$ croissant (calculer $g(S,e)$ pour tout les $S$ de taille 1, ensuite de taille 2, etc.). Chaque calcul de $g(S,e)$ se fait en $k$ étapes (la valeur de chaque $g(S_i, s_i)$ est déjà sauvegardée et il ne suffit que de reprendre cette donnée de la mémoire car $|S_i| < |S|$).
+
+Après avoir calculé tout les $g(S, e)$ avec $S$ de taille $n-2$ (dans ce cas l'algorithme a trouvé la chaine la moins lourde qui commence à 1 et qui passe par tout les sommets et termine à $e$ pour chaque $e \neq 1$), la solution est de poids $G$ avec $S = \{2\dots n\}$:
+\[
+G = \min _{e \in S} g(S \setminus e, e) + d(e, 1)
+\]
+
+\subsubsection{Complexité en espace}
+L'algorithme a besoin de l'espace pour stocker chaque $g(S,e)$ (et éventuellement $s_i$ mais c'est juste un facteur de 2). Donc il suffit de calculer le nombre de paire $g(S, e)$ possible pour estimer la complexité en espace. Pour les $S$ de taille $k$, il existe $\binom{n-1}{k}$ combinaisons différentes et pour chaque il y a $n-1-k$ choix différents pour $e$. Alors le nombre de paire $g(S, e)$ sont (pour $k$ variant entre 0 et $n-2$, il faut au moins 1 sommet comme choix pour $e$):
+\begin{align*}
+\sum _{k=0}^{n-2} (n-1-k)\binom{n-1}{k} &= \sum _{k=0}^{n-2} (n-1-k)\times \frac{(n-1)!}{k!(n-1-k)!}\\
+&= \sum _{k=0}^{n-2} (n-1) \times \frac{(n-2)!}{k!(n-2-k)!}\\
+&= \sum _{k=0}^{n-2} (n-1) \binom{n-2}{k} = (n-1) \sum _{k=0}^{n-2} \binom{n-2}{k}\\
+&= (n-1)2^{n-2}
+\end{align*}
+L'algorithme a donc une complexité d'espace de $\Theta (n2^n)$. Par contre, si seulement le coût minimal est souhaité et pas le cycle, il est pratique de réutiliser les espaces mémoire pour chaque $k$ croissant, car il ne faut que savoir $g(S, e)$ pour $S$ de taille $k$ pour calculer $g(S, e)$ de taille $k+1$.
+
+\subsubsection{Complexité en temps}
+L'algorithme prend du temps pour calculer chaque $g(S, e)$ pour un $S$ de taille $k$. Ce temps est proportionnel à la taille de $S$ car il évalue tout les $g(S', e')$ pour chaque $e' \in S$ et donc de même façon que le calcul de la complexité d'espace:
+\begin{align*}
+\sum _{k=1}^{n-2} k(n-1-k)\binom{n-1}{k} &= \sum _{k=1}^{n-2} k(n-1-k)\times \frac{(n-1)!}{k!(n-1-k)!}\\
+&= \sum _{k=1}^{n-2} (n-1)(n-2) \times \frac{(n-3)!}{(k-1)!(n-3 - (k-1))!}\\
+&= \sum _{k=1}^{n-2} (n-1)(n-2) \binom{n-3}{k-1} = (n-1)(n-2) \sum _{k=1}^{n-2} \binom{n-3}{k-1}\\
+&= (n-1)(n-2)2^{n-3}
+\end{align*}
+L'algorithme a donc une complexité de temps de $\Theta (n^22^n)$.
 
 \end{document}
