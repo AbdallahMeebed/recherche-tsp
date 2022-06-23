@@ -20,7 +20,7 @@ avec $F^*$ la solution optimale (supposé strictement positive) et $\hat{F}$ la 
 
 Ce document présente la partie du théorème de \cite{Sahni1976} concernant le problème du voyageur de commerce.
 
-\subsection{Problème du voyageur de commerce}
+\subsection{Approximation du problème du voyageur de commerce}
 Dans cette section, le problème du voyageur  de commerce (TSP pour \emph{Traveling salesman problem})et la preuve du théorème de \cite{Sahni1976} sont présentés. Il est important de noter que si P=NP, l'approximation resterait un problème dans la classe NP-complet (les deux classes sont équivalents). Pour la suite il est supposé que P $\neq$ NP, qui impliquera que n'importe quelle algorithme pour résoudre le problème dans un temps polynomial doit produire des mauvaises approximations dans au moins un instance.
 
 \noindent \emph{Problème de voyageur de commerce}: Soit un graphe $G(N, A)$ un graphe complet avec une fonction poids $\omega : A \rightarrow Z$, trouver le cycle Hamiltonien (le cycle qui passe par tout les sommets exactement une fois) le plus optimal selon les critères suivantes:
@@ -56,9 +56,13 @@ Soit $G(N,A)$ un graphe quelconque. Chaque critère d'optimisation sera traité 
 k \text{ sinon}
 \end{cases}
 \]
-$k$ est une valeur à choisir ultérieurement. Pour $k > 1$, la solution du TSP sur $G_1$ aura une longueur $n$ ssi $G$ contient un cycle Hamiltonien, sinon la solution aura une longueur au moins $k + n -1$. Si on choisi $k \geq (1+\epsilon)n$, il suffit juste d'évaluer la solution approximative: si elle est inférieure ou égale à $(1+ \epsilon)n$ (ne pas oublier l'erreur commise par l'approximation) alors $G$ contient un cycle Hamiltonien. Sinon, $G$ n'en contient pas. Cela revient à résoudre le problème de trouver si un graphe contient un cycle Hamiltonien (un problème NP-complet).
+$k$ est une valeur à choisir ultérieurement. Pour $k > 1$, la solution du TSP sur $G_1$ aura une longueur $n$ ssi $G$ contient un cycle Hamiltonien, sinon la solution aura une longueur au moins $k + n -1$.
 
-2. Trouver un cycle Hamiltonien $\propto \! \epsilon$-approximation du voyageur de commerce (minimiser le temps d'arrivé moyen): Soit $G_1(V,E)$ comme défini ci-dessus. Le temps d'arrivé moyen de $G_1$ est au maximum $(n+1)/2$ ssi $G$ contient un cycle Hamiltonien. Sinon, $\bar{Y} \geq k/n + (n-1)/2$. Si on choisi $k > (1+\epsilon)n(n+1)/2$, il suffit juste d'évaluer la solution approximative: si elle est inférieur ou égale à $(1+\epsilon)(n+1)/2$, alors la solution exacte sera $(n+1)/2$ et donc $G$ contient un cycle Hamiltonien. Sinon, $G$ n'en contient pas.
+Si on choisi $k \geq (1+\epsilon)n$, il suffit juste d'évaluer la solution approximative: si elle est inférieure ou égale à $(1+ \epsilon)n$ (ne pas oublier l'erreur commise par l'approximation) alors $G$ contient un cycle Hamiltonien. Sinon, $G$ n'en contient pas. Cela revient à résoudre le problème de trouver si un graphe contient un cycle Hamiltonien (un problème NP-complet).
+
+2. Trouver un cycle Hamiltonien $\propto \! \epsilon$-approximation du voyageur de commerce (minimiser le temps d'arrivé moyen): Soit $G_1(V,E)$ comme défini ci-dessus. Le temps d'arrivé moyen de $G_1$ est au maximum $(n+1)/2$ ssi $G$ contient un cycle Hamiltonien.
+
+Sinon, $\bar{Y} \geq k/n + (n-1)/2$. Si on choisi $k > (1+\epsilon)n(n+1)/2$, il suffit juste d'évaluer la solution approximative: si elle est inférieur ou égale à $(1+\epsilon)(n+1)/2$, alors la solution exacte sera $(n+1)/2$ et donc $G$ contient un cycle Hamiltonien. Sinon, $G$ n'en contient pas.
 
 \begin{figure}[ht]
     \centering
