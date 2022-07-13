@@ -115,9 +115,24 @@ Il est maintenant facile de voir que pour obtenir une approximation sur la varia
 Pour résumer, tout algorithme $\epsilon$-approximative du TSP est NP-complet. Ceci à été établi en réduisant le problème à un problème prouvé d'être NP-complet. Autrement dit, si un algorithme peut approximer la solution du TSP pour n'importe quelle graphe, il est au moins assez difficile que résoudre le problème: Est-ce que ce graphe contient un cycle Hamiltonien? La solution de cette question n'est pas obtenue dans un temps polynomial et donc soit l'algorithme approximative ne résolve pas le problème dans un temps polynomial ou bien il n'est pas $\epsilon$-approximative.
 
 \subsection{Classification du voyageur de commerce}
-Le problème du voyageur de commerce peut être considéré sous plusieurs classe de complexité selon le problème posé. La version d'un problème de décision: est-ce qu'il existe une solution pour un graphe $G(V,A)$ ?revient à demander s'il existe un cycle Hamiltonien, car s'il existe au moins un cycle alors il y aura une solution. Cette question est donc en classe NP-complet (elle peut être réduit à un problème NP-complet). La version de la question avec un seuil: Est-ce qu'il existe une solution avec un coût total inférieur à $x$? Cette formulation place le problème aussi dans la classe NP-complet, il est facile de vérifier le poids d'un cycle Hamiltonien (somme des arêtes) et donc la vérification d'une solution est faite rapidement.
+Le problème du voyageur de commerce peut être considéré sous plusieurs classe de complexité selon le problème posé. La version d'un problème de décision: est-ce qu'il existe une solution pour un graphe $G(V,A)$ ?revient à demander s'il existe un cycle Hamiltonien, car s'il existe au moins un cycle alors il y aura une solution. Cette question est donc en classe NP-complet (elle peut être réduit à un problème NP-complet).
 
-Par contre, la version \og complète \fg{}: Trouver le cycle Hamiltonien le moins lourd, est placé dans NP-difficile. Premièrement, ce problème n'est plus un problème de décision, c'est un problème de fonction. Ensuite, trouver une solution est au moins assez difficile que trouver un cycle Hamiltonien, donc le problème ne peux pas être résolu dans un temps polynomial (supposant que P$\neq$ NP). En plus, il n'existe pas de méthode rapide pour vérifier si un cycle Hamiltonien dans le graphe est en faite le cycle le moins lourd; une solution donnée ne peut pas être vérifiée dans un temps polynomial.
+La version de la question avec un seuil: Est-ce qu'il existe une solution avec un coût total inférieur ou égal à $x$? Cette formulation place le problème aussi dans la classe NP-complet, il est facile de vérifier le poids d'un cycle Hamiltonien (somme des arêtes) et donc la vérification d'une solution est faite rapidement.
+
+Il reste à prouver qu'un problème NP-complet peut être réduit au TSP avec seuil. Il est facile de faire la réduction à partir du problème du cycle Hamiltonien. Soit $G(V,A)$ un graphe de l'instance de $HC$. La réduction transformera ce graphe à un graphe complet avec $V'=V$, $G'(V', A')$ avec une fonction de poids $\omega: A' \rightarrow Z$ tel que:
+\[
+\omega \{u, v\} = \begin{cases}
+\text{1 si } (u,v)\in A,\\
+k \text{ sinon}
+\end{cases}
+\]
+avec $k > 1$ (nombre arbitraire). Ensuite il faut prouver que $G$ contient un cycle Hamiltonien si et seulement si la solution du TSP avec seuil pour $G'$ (avec $x=|V'|$) est vraie. Intuitivement, l'algorithme qui résout le TSP avec seuil est utilisé pour résoudre $HC$, afin de prouver que le TSP avec seuil est au moins aussi difficile que $HC$. Alors nous supposons que tel algorithme existe (qui prend en entrée un graphe et un réel $x$ et donne en sortie un oui ou non). Il suffit alors de donner à cet algorithme $G$ et $x=|V'$: Si l'algorithme donne un oui alors la solution de TSP dans $G'$ a utilisé tous les arête originalement dans $G$ et alors un cycle Hamiltonien sera présent dans $G$.
+
+Dans un autre temps si l'algorithme donne un non alors la cycle le moins lourd à dû sélectionner un arête qui est dans $G'$ et pas dans $G$ et alors il n'existe pas un cycle Hamiltonien dans $G$.
+
+Par contre, la version \og complète \fg{}: Trouver le cycle Hamiltonien le moins lourd, est placé dans NP-difficile. Premièrement, ce problème n'est plus un problème de décision, c'est un problème de fonction. Il n'existe pas de méthode rapide pour vérifier si un cycle Hamiltonien dans le graphe est en faite le cycle le moins lourd; une solution donnée ne peut pas être vérifiée dans un temps polynomial ($TSP \notin NP$). Il est aussi intéressant de noter que la réduction ci dessus peut être utilisée pour montrer que $HC \leq _p TSP$.
+
+Il suffit de vérifier que $G$ contient un cycle Hamiltonien si et seulement si la solution du TSP pour $G'$ a un poids $|V'|$. Nous supposons qu'un algorithme pour résoudre le TSP existe (prend en entré un graphe et en sortie donne un cycle avec un poids, qui est le cycle le moins lourds). $G'$ est donné à l'entrée de l'algorithme et si la sortie a un poids $|V'|$ alors les arêtes dans le cycle optimal sont tous présentes dans $G$ aussi qui fait un cycle Hamiltonien, sinon le cycle optimal utilise des arêtes qui ne sont pas dans $G$ et donc il ne contient pas un cycle Hamiltonien.
 
 
 \end{document}
